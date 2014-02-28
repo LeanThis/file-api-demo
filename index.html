@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<p>Elige un fichero con fechas en formato americano:</p>
+<input id="ficheroTratar" type="file" onchange="trataFichero();" />
+
+<script type='text/javascript'>
+
+function convierteFormatoEuropeo(fechaFormatoAmericano) {
+    return fechaFormatoAmericano.replace(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/g, '$2\/$1\/$3');
+}
+
+function toDataUrl(text) {
+    return 'data:,' + encodeURIComponent(text);
+}
+
+function trataFichero() {
+    var ficherosSeleccionados = document.getElementById("ficheroTratar").files;
+    if (ficherosSeleccionados.length > 0) {
+        var ficheroTratar = ficherosSeleccionados[0];
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function(evt) {
+            var contenido = evt.target.result;
+            contenido = convierteFormatoEuropeo(contenido)
+            location.href = toDataUrl(contenido);
+        };
+
+        fileReader.readAsText(ficheroTratar);
+    }
+}
+
+</script>
+
